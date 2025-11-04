@@ -1,0 +1,41 @@
+@using System.Linq
+@model IReadOnlyList<NoticeViewModel>
+
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h1 class="mb-1">공지사항</h1>
+        <p class="text-muted mb-0">서비스 업데이트와 운영 알림을 확인하세요.</p>
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-light border">
+        등록된 공지사항이 없습니다. 새 소식을 곧 전해드릴게요!
+    </div>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var notice in Model)
+        {
+            <article class="list-group-item list-group-item-action py-4">
+                <header class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                    <h2 class="h5 mb-0">@notice.Title</h2>
+                    @if (notice.IsPinned)
+                    {
+                        <span class="badge bg-warning text-dark">상단 고정</span>
+                    }
+                </header>
+                <p class="text-muted small mb-2">
+                    게시일 @notice.PublishedAt.ToLocalTime().ToString("yyyy-MM-dd")
+                </p>
+                @if (!string.IsNullOrWhiteSpace(notice.Summary))
+                {
+                    <p class="mb-2">@notice.Summary</p>
+                }
+                <p class="mb-0">@notice.Content</p>
+            </article>
+        }
+    </div>
+}

@@ -1,0 +1,45 @@
+## Build output
+bin/
+obj/
+
+## User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+## Visual Studio cache/options
+.vs/
+
+## Log files
+*.log
+
+## NuGet packages
+*.nupkg
+*.snupkg
+packages/
+
+## Entity Framework & tooling
+*.ndjson
+migrations/
+
+## ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## Secrets
+appsettings.Development.json
+secrets.json
+
+## Rider / JetBrains
+.idea/
+
+## OS-generated files
+.DS_Store
+Thumbs.db
+
+## CLI artifacts
+project.lock.json
+project.fragment.lock.json
+
+## Custom excludes
+agents.md

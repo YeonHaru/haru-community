@@ -1,0 +1,39 @@
+@model AdminDashboardViewModel
+
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h1 class="mb-1">관리자 대시보드</h1>
+        <p class="text-muted mb-0">커뮤니티 현황을 확인하고 관리 작업을 진행하세요.</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-primary" asp-action="Users">사용자 목록</a>
+        <a class="btn btn-primary" asp-action="Boards">게시판 관리</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <p class="text-muted text-uppercase fw-semibold small mb-1">총 사용자</p>
+                <p class="display-6 fw-semibold mb-0">@Model.TotalUsers</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <p class="text-muted text-uppercase fw-semibold small mb-1">총 게시판</p>
+                <p class="display-6 fw-semibold mb-0">@Model.TotalBoards</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <p class="text-muted text-uppercase fw-semibold small mb-1">총 게시글</p>
+                <p class="display-6 fw-semibold mb-0">@Model.TotalPosts</p>
+            </div>
+        </div>
+    </div>
+</div>

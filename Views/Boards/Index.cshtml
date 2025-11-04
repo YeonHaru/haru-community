@@ -1,0 +1,51 @@
+@using System.Linq
+@model IEnumerable<Board>
+
+@{
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+    var notice = TempData["BoardCreationNotice"] as string;
+}
+
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <h1 class="mb-0">게시판 목록</h1>
+    @if (isAuthenticated)
+    {
+        <a asp-action="Create" class="btn btn-primary">게시판 만들기</a>
+    }
+</div>
+
+@if (!string.IsNullOrWhiteSpace(notice))
+{
+    <div class="alert alert-info">@notice</div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-light border">아직 만들어진 게시판이 없습니다. 첫 게시판을 만들어 보세요!</div>
+}
+else
+{
+    <div class="row g-4">
+        @foreach (var board in Model)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@board.Name</h5>
+                        @if (!string.IsNullOrWhiteSpace(board.Description))
+                        {
+                            <p class="card-text text-muted">@board.Description</p>
+                        }
+                        <p class="card-text mt-auto mb-3">
+                            <small class="text-muted">
+                                만든 사람: @board.Owner?.UserName ?? "알 수 없음"<br />
+                                생성일: @board.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd")
+                            </small>
+                        </p>
+                        <a class="btn btn-outline-primary" asp-controller="BoardPosts" asp-action="Index" asp-route-boardId="@board.Id">게시글 보기</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

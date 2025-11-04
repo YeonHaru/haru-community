@@ -1,0 +1,40 @@
+@using System
+@using System.Security.Claims
+@model BoardPost
+
+@{
+    var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    var canManage = User.Identity?.IsAuthenticated == true && (
+        User.IsInRole("Administrator")
+        || string.Equals(currentUserId, Model.AuthorId, StringComparison.Ordinal)
+        || string.Equals(currentUserId, Model.Board?.OwnerId, StringComparison.Ordinal));
+}
+
+<h1 class="mb-1">@Model.Title</h1>
+<p class="text-muted mb-4">@Model.Board?.Name ?? "게시판"</p>
+
+<div class="mb-3 text-muted">
+    <span class="me-3"><strong>작성자</strong> @Model.AuthorName</span>
+    <span class="me-3"><strong>작성일</strong> @Model.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</span>
+    @if (Model.UpdatedAt.HasValue)
+    {
+        <span><strong>수정일</strong> @Model.UpdatedAt.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</span>
+    }
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        @Html.Raw(Html.Encode(Model.Content).Replace("\n", "<br />"))
+    </div>
+</div>
+
+<div class="d-flex justify-content-between">
+    <a asp-action="Index" asp-route-boardId="@Model.BoardId" class="btn btn-link">목록으로</a>
+    @if (canManage)
+    {
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary me-2">수정</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">삭제</a>
+        </div>
+    }
+</div>

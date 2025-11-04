@@ -1,0 +1,64 @@
+@using System
+@using System.Security.Claims
+@model BoardDetailsViewModel
+
+@{
+    var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+}
+
+<div class="d-flex align-items-start justify-content-between mb-4">
+    <div>
+        <h1 class="mb-2">@Model.Board.Name</h1>
+        @if (!string.IsNullOrWhiteSpace(Model.Board.Description))
+        {
+            <p class="text-muted mb-0">@Model.Board.Description</p>
+        }
+    </div>
+    @if (isAuthenticated)
+    {
+        <a asp-action="Create" asp-route-boardId="@Model.Board.Id" class="btn btn-primary align-self-center">새 글 작성</a>
+    }
+</div>
+
+@if (Model.Posts.Count == 0)
+{
+    <div class="alert alert-info">아직 게시글이 없습니다. 첫 글을 작성해 보세요!</div>
+}
+else
+{
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">작성일</th>
+                <th scope="col" class="text-end">작업</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var post in Model.Posts)
+        {
+            var canManage = isAuthenticated && (
+                User.IsInRole("Administrator")
+                || string.Equals(currentUserId, post.AuthorId, StringComparison.Ordinal)
+                || string.Equals(currentUserId, Model.Board.OwnerId, StringComparison.Ordinal));
+
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@post.Id">@post.Title</a>
+                </td>
+                <td>@post.AuthorName</td>
+                <td>@post.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                <td class="text-end">
+                    @if (canManage)
+                    {
+                        <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-outline-secondary btn-sm me-1">수정</a>
+                        <a asp-action="Delete" asp-route-id="@post.Id" class="btn btn-outline-danger btn-sm">삭제</a>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,53 @@
+﻿.site-header .navbar {
+  padding-block: 0.75rem;
+}
+
+.site-header .navbar-brand {
+  font-size: 1.125rem;
+  letter-spacing: 0.02em;
+}
+
+.site-header .nav-link {
+  font-weight: 500;
+  color: #0f172a;
+  transition: color 0.2s ease;
+}
+
+.site-header .nav-link:hover,
+.site-header .nav-link:focus {
+  color: #2563eb;
+}
+
+.navbar-actions .btn {
+  border-radius: 999px;
+  padding-inline: 1rem;
+}
+
+.navbar-actions .btn-outline-primary {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.navbar-actions .btn-outline-primary:hover {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+.navbar-actions .btn-primary {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+.auth-links .btn-link {
+  color: #0f172a;
+}
+
+.auth-links .btn-link:hover,
+.auth-links .btn-link:focus {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.footer {
+  padding-block: 1.5rem;
+  line-height: 1.5;
+}

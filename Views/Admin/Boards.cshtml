@@ -1,0 +1,62 @@
+@using System.Linq
+@model IReadOnlyList<AdminBoardViewModel>
+
+@{
+    var statusMessage = TempData["AdminStatusMessage"] as string;
+}
+
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <h1 class="mb-0">게시판 관리</h1>
+    <a class="btn btn-secondary" asp-action="Index">대시보드로 돌아가기</a>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(statusMessage))
+{
+    <div class="alert alert-info">@statusMessage</div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-light border">
+        등록된 게시판이 없습니다.
+    </div>
+}
+else
+{
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">이름</th>
+                        <th scope="col">설명</th>
+                        <th scope="col">게시글 수</th>
+                        <th scope="col">게시판 소유자</th>
+                        <th scope="col">생성일</th>
+                        <th scope="col" class="text-end">작업</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var board in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@board.Name</td>
+                            <td>@board.Description</td>
+                            <td>@board.PostCount</td>
+                            <td>@board.OwnerName</td>
+                            <td>@board.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd")</td>
+                            <td class="text-end">
+                                <form asp-action="DeleteBoard" method="post" asp-route-id="@board.Id" class="d-inline">
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('정말로 이 게시판을 삭제하시겠습니까? 관련 게시글도 모두 삭제됩니다.');">
+                                        삭제
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
