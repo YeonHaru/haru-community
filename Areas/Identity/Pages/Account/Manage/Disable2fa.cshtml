@@ -1,25 +1,25 @@
 ﻿@page
 @model Disable2faModel
 @{
-    ViewData["Title"] = "Disable two-factor authentication (2FA)";
+    ViewData["Title"] = "2단계 인증 해제";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
-<h3>@ViewData["Title"]</h3>
+<h3 class="mb-3">@ViewData["Title"]</h3>
 
 <div class="alert alert-warning" role="alert">
-    <p>
-        <strong>This action only disables 2FA.</strong>
+    <p class="mb-1">
+        <strong>이 작업은 2단계 인증만 해제합니다.</strong>
     </p>
-    <p>
-        Disabling 2FA does not change the keys used in authenticator apps. If you wish to change the key
-        used in an authenticator app you should <a asp-page="./ResetAuthenticator">reset your authenticator keys.</a>
+    <p class="mb-0">
+        2단계 인증을 꺼도 인증 앱의 키는 변경되지 않습니다. 인증 키를 새로 발급하려면
+        <a asp-page="./ResetAuthenticator">인증 앱 초기화</a>를 진행하세요.
     </p>
 </div>
 
 <div>
     <form method="post">
-        <button class="btn btn-danger" type="submit">Disable 2FA</button>
+        <button class="btn btn-danger" type="submit">2단계 인증 해제</button>
     </form>
 </div>

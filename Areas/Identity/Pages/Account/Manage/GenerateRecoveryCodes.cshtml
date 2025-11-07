@@ -1,27 +1,26 @@
 ﻿@page
 @model GenerateRecoveryCodesModel
 @{
-    ViewData["Title"] = "Generate two-factor authentication (2FA) recovery codes";
+    ViewData["Title"] = "복구 코드 생성";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
-<h3>@ViewData["Title"]</h3>
+<h3 class="mb-3">@ViewData["Title"]</h3>
 <div class="alert alert-warning" role="alert">
-    <p>
-        <span class="glyphicon glyphicon-warning-sign"></span>
-        <strong>Put these codes in a safe place.</strong>
+    <p class="mb-1">
+        <strong>생성된 복구 코드는 안전한 곳에 보관하세요.</strong>
     </p>
-    <p>
-        If you lose your device and don't have the recovery codes you will lose access to your account.
+    <p class="mb-1">
+        기기를 잃어버리고 복구 코드를 찾지 못하면 계정에 접근할 수 없습니다.
     </p>
-    <p>
-        Generating new recovery codes does not change the keys used in authenticator apps. If you wish to change the key
-        used in an authenticator app you should <a asp-page="./ResetAuthenticator">reset your authenticator keys.</a>
+    <p class="mb-0">
+        복구 코드를 다시 만들어도 인증 앱의 키는 바뀌지 않습니다. 키를 변경하려면
+        <a asp-page="./ResetAuthenticator">인증 앱 초기화</a>를 사용하세요.
     </p>
 </div>
 <div>
     <form method="post">
-        <button class="btn btn-danger" type="submit">Generate Recovery Codes</button>
+        <button class="btn btn-danger" type="submit">복구 코드 생성</button>
     </form>
 </div>

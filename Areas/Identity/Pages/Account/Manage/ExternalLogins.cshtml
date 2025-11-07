@@ -1,34 +1,29 @@
 ﻿@page
 @model ExternalLoginsModel
 @{
-    ViewData["Title"] = "Manage your external logins";
+    ViewData["Title"] = "외부 로그인 관리";
     ViewData["ActivePage"] = ManageNavPages.ExternalLogins;
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
 @if (Model.CurrentLogins?.Count > 0)
 {
-    <h3>Registered Logins</h3>
+    <h3 class="mb-3">연결된 로그인</h3>
     <table class="table">
         <tbody>
             @foreach (var login in Model.CurrentLogins)
             {
                 <tr>
                     <td id="@($"login-provider-{login.LoginProvider}")">@login.ProviderDisplayName</td>
-                    <td>
+                    <td class="text-end">
                         @if (Model.ShowRemoveButton)
                         {
-                            <form id="@($"remove-login-{login.LoginProvider}")" asp-page-handler="RemoveLogin" method="post">
-                                <div>
-                                    <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
-                                    <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
-                                    <button type="submit" class="btn btn-primary" title="Remove this @login.ProviderDisplayName login from your account">Remove</button>
-                                </div>
+                            <form id="@($"remove-login-{login.LoginProvider}")" asp-page-handler="RemoveLogin" method="post" class="d-inline">
+                                <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
+                                <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
+                                <button type="submit" class="btn btn-outline-danger btn-sm"
+                                        title="이 @login.ProviderDisplayName 로그인을 계정에서 제거합니다.">연결 해제</button>
                             </form>
-                        }
-                        else
-                        {
-                            @: &nbsp;
                         }
                     </td>
                 </tr>
@@ -38,16 +33,17 @@
 }
 @if (Model.OtherLogins?.Count > 0)
 {
-    <h4>Add another service to log in.</h4>
-    <hr />
-    <form id="link-login-form" asp-page-handler="LinkLogin" method="post" class="form-horizontal">
-        <div id="socialLoginList">
-            <p>
-                @foreach (var provider in Model.OtherLogins)
-                {
-                    <button id="@($"link-login-button-{provider.Name}")" type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                }
-            </p>
+    <h4 class="mt-4">다른 서비스와 연동</h4>
+    <p class="text-muted">아래 버튼을 눌러 외부 계정을 연결하면 해당 서비스로도 로그인할 수 있습니다.</p>
+    <form id="link-login-form" asp-page-handler="LinkLogin" method="post">
+        <div id="socialLoginList" class="d-flex flex-wrap gap-2">
+            @foreach (var provider in Model.OtherLogins)
+            {
+                <button id="@($"link-login-button-{provider.Name}")" type="submit" class="btn btn-outline-primary"
+                        name="provider" value="@provider.Name" title="@provider.DisplayName 계정으로 로그인">
+                    @provider.DisplayName 연결
+                </button>
+            }
         </div>
     </form>
 }

@@ -30,12 +30,6 @@ namespace haru_community.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public string Username { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -46,18 +40,25 @@ namespace haru_community.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
+        public string Email { get; set; }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public class InputModel
         {
+            [Required]
+            [StringLength(256, MinimumLength = 2)]
+            [Display(Name = "닉네임")]
+            public string UserName { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "연락처 (선택)")]
             public string PhoneNumber { get; set; }
         }
 
@@ -65,11 +66,13 @@ namespace haru_community.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var email = await _userManager.GetEmailAsync(user);
 
-            Username = userName;
+            Email = email;
 
             Input = new InputModel
             {
+                UserName = userName,
                 PhoneNumber = phoneNumber
             };
         }
@@ -100,19 +103,29 @@ namespace haru_community.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+            if (!string.Equals(Input.UserName, user.UserName, StringComparison.Ordinal))
+            {
+                var setNameResult = await _userManager.SetUserNameAsync(user, Input.UserName);
+                if (!setNameResult.Succeeded)
+                {
+                    StatusMessage = "닉네임을 업데이트하는 중 오류가 발생했습니다.";
+                    return RedirectToPage();
+                }
+            }
+
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "전화번호를 저장하는 중 오류가 발생했습니다.";
                     return RedirectToPage();
                 }
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "프로필을 업데이트했어요.";
             return RedirectToPage();
         }
     }

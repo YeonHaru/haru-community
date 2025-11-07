@@ -2,12 +2,12 @@
 @using Microsoft.AspNetCore.Http.Features
 @model TwoFactorAuthenticationModel
 @{
-    ViewData["Title"] = "Two-factor authentication (2FA)";
+    ViewData["Title"] = "2단계 인증 (2FA)";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
-<h3>@ViewData["Title"]</h3>
+<h3 class="mb-3">@ViewData["Title"]</h3>
 @{
     var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
     @if (consentFeature?.CanTrack ?? true)
@@ -17,51 +17,55 @@
             if (Model.RecoveryCodesLeft == 0)
             {
                 <div class="alert alert-danger">
-                    <strong>You have no recovery codes left.</strong>
-                    <p>You must <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
+                    <strong>남은 복구 코드가 없습니다.</strong>
+                    <p><a asp-page="./GenerateRecoveryCodes">새 복구 코드를 생성</a>한 뒤에만 복구 코드로 로그인할 수 있습니다.</p>
                 </div>
             }
             else if (Model.RecoveryCodesLeft == 1)
             {
                 <div class="alert alert-danger">
-                    <strong>You have 1 recovery code left.</strong>
-                    <p>You can <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                    <strong>복구 코드가 1개 남았습니다.</strong>
+                    <p><a asp-page="./GenerateRecoveryCodes">새 복구 코드를 생성</a>하는 것이 좋습니다.</p>
                 </div>
             }
             else if (Model.RecoveryCodesLeft <= 3)
             {
                 <div class="alert alert-warning">
-                    <strong>You have @Model.RecoveryCodesLeft recovery codes left.</strong>
-                    <p>You should <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                    <strong>복구 코드가 @Model.RecoveryCodesLeft 개 남았습니다.</strong>
+                    <p><a asp-page="./GenerateRecoveryCodes">새 복구 코드를 생성</a>해 주세요.</p>
                 </div>
             }
 
-            if (Model.IsMachineRemembered)
-            {
-                <form method="post" style="display: inline-block">
-                    <button type="submit" class="btn btn-primary">Forget this browser</button>
-                </form>
-            }
-            <a asp-page="./Disable2fa" class="btn btn-primary">Disable 2FA</a>
-            <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary">Reset recovery codes</a>
+            <div class="d-flex flex-wrap gap-2 mb-4">
+                @if (Model.IsMachineRemembered)
+                {
+                    <form method="post">
+                        <button type="submit" class="btn btn-outline-secondary">이 브라우저 기억 해제</button>
+                    </form>
+                }
+                <a asp-page="./Disable2fa" class="btn btn-outline-danger">2단계 인증 해제</a>
+                <a asp-page="./GenerateRecoveryCodes" class="btn btn-outline-primary">복구 코드 재발급</a>
+            </div>
         }
 
-        <h4>Authenticator app</h4>
+        <h4 class="h5 mb-3">인증 앱 설정</h4>
         @if (!Model.HasAuthenticator)
         {
-            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Add authenticator app</a>
+            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">인증 앱 추가</a>
         }
         else
         {
-            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Set up authenticator app</a>
-            <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-primary">Reset authenticator app</a>
+            <div class="d-flex flex-wrap gap-2">
+                <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">인증 앱 설정 다시 보기</a>
+                <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-outline-secondary">인증 앱 초기화</a>
+            </div>
         }
     }
     else
     {
         <div class="alert alert-danger">
-            <strong>Privacy and cookie policy have not been accepted.</strong>
-            <p>You must accept the policy before you can enable two factor authentication.</p>
+            <strong>개인정보 및 쿠키 사용에 동의하지 않으셨습니다.</strong>
+            <p>2단계 인증을 사용하려면 먼저 정책에 동의해야 합니다.</p>
         </div>
     }
 }

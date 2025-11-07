@@ -90,12 +90,12 @@ namespace haru_community.Areas.Identity.Pages.Account.Manage
             var result = await _userManager.RemoveLoginAsync(user, loginProvider, providerKey);
             if (!result.Succeeded)
             {
-                StatusMessage = "The external login was not removed.";
+                StatusMessage = "외부 로그인을 제거하지 못했습니다.";
                 return RedirectToPage();
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "The external login was removed.";
+            StatusMessage = "외부 로그인 연결을 해제했습니다.";
             return RedirectToPage();
         }
 
@@ -128,14 +128,14 @@ namespace haru_community.Areas.Identity.Pages.Account.Manage
             var result = await _userManager.AddLoginAsync(user, info);
             if (!result.Succeeded)
             {
-                StatusMessage = "The external login was not added. External logins can only be associated with one account.";
+                StatusMessage = "외부 로그인 연결에 실패했습니다. 외부 로그인은 하나의 계정에만 연결할 수 있습니다.";
                 return RedirectToPage();
             }
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            StatusMessage = "The external login was added.";
+            StatusMessage = "외부 로그인 연결을 완료했습니다.";
             return RedirectToPage();
         }
     }

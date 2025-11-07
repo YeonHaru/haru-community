@@ -60,7 +60,7 @@ namespace haru_community.Areas.Identity.Pages.Account.Manage
             _logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", user.Id);
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.";
+            StatusMessage = "인증 앱 키를 초기화했습니다. 새 키로 인증 앱을 다시 설정해주세요.";
 
             return RedirectToPage("./EnableAuthenticator");
         }

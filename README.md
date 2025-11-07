@@ -12,6 +12,20 @@ dotnet run
 
 기본 실행 포트는 `https://localhost:5001`, `http://localhost:5000` 입니다.
 
+## 관리자 계정 초기화
+
+최초 실행 시 `DefaultAdmin` 구성이 존재하면 Admin 역할과 기본 관리자 계정이 자동으로 생성됩니다. 비밀번호는 Git에 커밋하지 말고 [User Secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets) 또는 환경 변수로 관리하세요.
+
+```jsonc
+// appsettings.Development.json 또는 user-secrets
+{
+  "DefaultAdmin": {
+    "Email": "admin@example.com",
+    "Password": "안전한_비밀번호!"
+  }
+}
+```
+
 ## 주요 기능
 
 - 회원가입 및 로그인 (ASP.NET Core Identity)

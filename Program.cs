@@ -1,5 +1,6 @@
 using haru_community.Data;
 using haru_community.Models;
+using haru_community.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
@@ -27,10 +28,14 @@ builder.Services
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.Configure<DefaultAdminOptions>(builder.Configuration.GetSection("DefaultAdmin"));
+
 // Razor Pages 서비스 추가
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+await AdminSeeder.SeedAsync(app.Services);
 
 if (!app.Environment.IsDevelopment())
 {

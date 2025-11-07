@@ -63,7 +63,7 @@ namespace haru_community.Areas.Identity.Pages.Account.Manage
             }
 
             _logger.LogInformation("User with ID '{UserId}' has disabled 2fa.", _userManager.GetUserId(User));
-            StatusMessage = "2fa has been disabled. You can reenable 2fa when you setup an authenticator app";
+            StatusMessage = "2단계 인증을 해제했습니다. 인증 앱을 다시 설정하면 언제든 재활성화할 수 있습니다.";
             return RedirectToPage("./TwoFactorAuthentication");
         }
     }

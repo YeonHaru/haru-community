@@ -1,24 +1,22 @@
 ﻿@page
 @model ResetAuthenticatorModel
 @{
-    ViewData["Title"] = "Reset authenticator key";
+    ViewData["Title"] = "인증 앱 키 초기화";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
-<h3>@ViewData["Title"]</h3>
+<h3 class="mb-3">@ViewData["Title"]</h3>
 <div class="alert alert-warning" role="alert">
-    <p>
-        <span class="glyphicon glyphicon-warning-sign"></span>
-        <strong>If you reset your authenticator key your authenticator app will not work until you reconfigure it.</strong>
+    <p class="mb-1">
+        <strong>인증 앱 키를 초기화하면 다시 설정하기 전까지 인증 앱이 동작하지 않습니다.</strong>
     </p>
-    <p>
-        This process disables 2FA until you verify your authenticator app.
-        If you do not complete your authenticator app configuration you may lose access to your account.
+    <p class="mb-0">
+        이 과정에서 2단계 인증이 일시적으로 비활성화됩니다. 인증 앱 설정을 완료하지 않으면 계정에 접근하지 못할 수 있습니다.
     </p>
 </div>
 <div>
     <form id="reset-authenticator-form" method="post">
-        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Reset authenticator key</button>
+        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">인증 앱 키 초기화</button>
     </form>
 </div>

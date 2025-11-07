@@ -83,7 +83,7 @@ namespace haru_community.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.ForgetTwoFactorClientAsync();
-            StatusMessage = "The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code.";
+            StatusMessage = "현재 브라우저에서 2단계 인증 정보를 잊도록 처리했습니다. 다음 로그인 시 2단계 인증 코드를 다시 입력해야 합니다.";
             return RedirectToPage();
         }
     }

@@ -50,9 +50,9 @@ namespace haru_community.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "{0}은(는) 최소 {2}자, 최대 {1}자여야 합니다.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "New password")]
+            [Display(Name = "새 비밀번호")]
             public string NewPassword { get; set; }
 
             /// <summary>
@@ -60,8 +60,8 @@ namespace haru_community.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Display(Name = "새 비밀번호 확인")]
+            [Compare("NewPassword", ErrorMessage = "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -107,7 +107,7 @@ namespace haru_community.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your password has been set.";
+            StatusMessage = "비밀번호 설정이 완료되었습니다.";
 
             return RedirectToPage();
         }

@@ -1,15 +1,15 @@
 ﻿@page
 @model DeletePersonalDataModel
 @{
-    ViewData["Title"] = "Delete Personal Data";
+    ViewData["Title"] = "개인 정보 삭제";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h3>@ViewData["Title"]</h3>
+<h3 class="mb-3">@ViewData["Title"]</h3>
 
 <div class="alert alert-warning" role="alert">
-    <p>
-        <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+    <p class="mb-0">
+        <strong>계정을 삭제하면 모든 데이터가 영구적으로 제거되며 복구할 수 없습니다.</strong>
     </p>
 </div>
 
@@ -18,13 +18,13 @@
         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
         @if (Model.RequirePassword)
         {
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Please enter your password." />
+            <div class="mb-3">
                 <label asp-for="Input.Password" class="form-label"></label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="현재 비밀번호를 입력하세요." />
+                <span asp-validation-for="Input.Password" class="text-danger small"></span>
             </div>
         }
-        <button class="w-100 btn btn-lg btn-danger" type="submit">Delete data and close my account</button>
+        <button class="btn btn-danger w-100" type="submit">모든 데이터 삭제 및 계정 탈퇴</button>
     </form>
 </div>
 

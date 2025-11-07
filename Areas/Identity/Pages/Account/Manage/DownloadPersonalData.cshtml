@@ -1,11 +1,12 @@
 ﻿@page
 @model DownloadPersonalDataModel
 @{
-    ViewData["Title"] = "Download Your Data";
+    ViewData["Title"] = "개인 정보 다운로드";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h3>@ViewData["Title"]</h3>
+<h3 class="mb-3">@ViewData["Title"]</h3>
+<p>요청한 데이터가 확인되면 JSON 파일로 다운로드됩니다.</p>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
